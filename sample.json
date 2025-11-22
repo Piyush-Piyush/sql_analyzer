@@ -1,0 +1,59 @@
+{
+	"Section 1 — Tables Needed": [
+		"table_name (alias: alias_if_any)",
+		"cte_name (CTE)"
+	],
+
+	"Section 2 — Columns Needed": [
+		"table.column — purpose (select / filter / join / group by / order by / having / expression)"
+	],
+
+	"Section 3 — Joins": [
+		{
+			"JOIN #": 1,
+			"Type": "INNER | LEFT | RIGHT | FULL",
+			"Tables": "tableA aliasA → tableB aliasB",
+			"Condition": "aliasA.column = aliasB.column",
+			"Optional/Mandatory": "Mandatory | Optional"
+		}
+	],
+
+	"Section 4 — Filters": [
+		{
+			"Location": "Main Query | CTE Name | Subquery",
+			"Expression": "filter_condition_here",
+			"Affected Columns": "table.column(s)",
+			"Reduces Data Volume": true
+		}
+	],
+
+	"Section 5 — Transformations": [
+		{
+			"Column/Expression": "expression_or_calculated_field_name",
+			"Logic": "Explain the transformation or logic applied"
+		}
+	],
+
+	"Section 6 — Data Dependencies": [
+		{
+			"Table": "table_name",
+			"Why Needed": "Explain why this table is required for the report",
+			"Role in Report": "Explain the functional role of the table (fact, dimension, lookup)",
+			"Migration Scope": "Specify which columns need to migrate"
+		}
+	],
+
+	"Section 7 — BigQuery Requirements Summary": {
+		"Tables to Migrate": ["table_name"],
+		"Columns to Migrate": [
+			{ "Column": "table.column", "Inferred Data Type": "data_type_guess" }
+		],
+		"PrimaryKey_ForeignKey Dependencies": [
+			"tableA.primary_key -> tableB.foreign_key"
+		],
+		"Lookup_Reference Tables Needed": ["lookup_table_name"],
+		"Transformations Handled in BigQuery": [
+			"List of transformations BigQuery must support"
+		]
+	}
+}
