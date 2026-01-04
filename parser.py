@@ -63,16 +63,23 @@ def analyze_sql(sql_text: str) -> dict:
     }
 
     # -------------------------
-    # Extract tables with aliases
+    # Extract tables with aliases (SQLGlot-safe)
     # -------------------------
     tables = []
     table_alias_map = []
 
     for t in parsed.find_all(sqlglot.exp.Table):
         table_name = t.name
-        alias = t.alias
+        alias_name = None
 
-        alias_name = alias.name if alias else None
+        if t.alias:
+            # Case 1: alias is a string
+            if isinstance(t.alias, str):
+                alias_name = t.alias
+
+            # Case 2: alias is an Alias expression
+            elif hasattr(t.alias, "this") and t.alias.this is not None:
+                alias_name = str(t.alias.this)
 
         tables.append(table_name)
         table_alias_map.append({
@@ -82,9 +89,6 @@ def analyze_sql(sql_text: str) -> dict:
 
     logger.debug(f"Table alias mapping: {table_alias_map}")
 
-
-    logger.info("SQL parsing completed")
-    return parsed_sql
 
 
 # -------------------------
